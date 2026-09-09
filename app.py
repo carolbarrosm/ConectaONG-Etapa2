@@ -22,7 +22,7 @@ st.markdown(
 
 arquivo_padrao = 'organizacoes_sociais_por_estado_brasil.csv'
 
-df = pd.read_csv(arquivo_padrao)
+df = pd.read_csv(arquivo_padrao, sep=';')
 
 df.columns = df.columns.str.strip()
 
