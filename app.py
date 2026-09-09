@@ -2,27 +2,39 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-st.set_page_config(page_title='ConectaONG — Dashboard', page_icon='🤝', layout='wide')
+st.set_page_config(
+    page_title='ConectaONG — Dashboard',
+    page_icon='🤝',
+    layout='wide'
+)
+
 st.title('🤝 ConectaONG')
 st.subheader('Dashboard de Organizações da Sociedade Civil')
-st.caption('Projeto Integrador — Etapa 2 | Distribuição estimada das OSCs por estado e região')
-st.markdown('Este dashboard apresenta a distribuição estimada das Organizações da Sociedade Civil (OSCs) no Brasil e apoia a proposta do ConectaONG de conectar organizações, voluntários e doadores.')
+st.caption(
+    'Projeto Integrador — Etapa 2 | Distribuição estimada das OSCs por estado e região'
+)
+
+st.markdown(
+    'Este dashboard apresenta a distribuição estimada das Organizações da Sociedade Civil '
+    '(OSCs) no Brasil e apoia a proposta do ConectaONG de conectar organizações, '
+    'voluntários e doadores.'
+)
 
 arquivo_padrao = 'organizacoes_sociais_por_estado_brasil.csv'
-import pandas as pd
 
-df = pd.read_csv("organizacoes_sociais_por_estado_brasil.csv")
+df = pd.read_csv(arquivo_padrao)
 
 df.columns = df.columns.str.strip()
+
 for col in ['Região', 'UF', 'Estado', 'Fonte dos Dados']:
     if col in df.columns:
         df[col] = df[col].astype(str).str.strip()
 
 col_oscs = 'Estimativa de OSCs Ativas'
+
 if col_oscs not in df.columns:
     st.error(f"A coluna '{col_oscs}' não foi encontrada no CSV.")
     st.stop()
-
 df[col_oscs] = pd.to_numeric(df[col_oscs], errors='coerce')
 df = df.drop_duplicates().dropna(subset=[col_oscs, 'Estado', 'Região']).copy()
 
