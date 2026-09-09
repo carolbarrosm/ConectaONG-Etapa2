@@ -9,16 +9,9 @@ st.caption('Projeto Integrador — Etapa 2 | Distribuição estimada das OSCs po
 st.markdown('Este dashboard apresenta a distribuição estimada das Organizações da Sociedade Civil (OSCs) no Brasil e apoia a proposta do ConectaONG de conectar organizações, voluntários e doadores.')
 
 arquivo_padrao = 'organizacoes_sociais_por_estado_brasil.csv'
-uploaded_file = st.sidebar.file_uploader('Envie o arquivo CSV', type=['csv'])
+import pandas as pd
 
-try:
-    if uploaded_file is not None:
-        df = pd.read_csv(uploaded_file, sep=';', encoding='utf-8')
-    else:
-        df = pd.read_csv(arquivo_padrao, sep=';', encoding='utf-8')
-except FileNotFoundError:
-    st.info('O CSV não foi encontrado na pasta do projeto. Envie o arquivo pelo botão da barra lateral.')
-    st.stop()
+df = pd.read_csv("organizacoes_sociais_por_estado_brasil.csv")
 
 df.columns = df.columns.str.strip()
 for col in ['Região', 'UF', 'Estado', 'Fonte dos Dados']:
